@@ -46,6 +46,10 @@ class OffsetPaginator < JSONAPI::Paginator
 
   def links_page_params(options = {})
     record_count = options[:record_count]
+
+    # if the record count is a hash returned by the .group option, flatten it to avoid an error
+    record_count = record_count.values.sum if record_count.is_a?(Hash)
+
     links_page_params = {}
 
     links_page_params['first'] = {
